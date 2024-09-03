@@ -1,0 +1,10 @@
+.burger-main {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  gap: 40px;
+}
+.burger-container {
+  max-width: 600px;
+  max-height: 900px;
+}
