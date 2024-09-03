@@ -39,6 +39,6 @@
 }
 
 .burger-ingredients-block::-webkit-scrollbar-thumb {
-  background: #fff;
+  background: #ffffff;
   border-radius: 4px; /* Закругленные углы полосы прокрутки */
 }
