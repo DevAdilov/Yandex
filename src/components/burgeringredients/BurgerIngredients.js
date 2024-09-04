@@ -1,17 +1,16 @@
 import { useState } from "react";
-import "./burgeringredients.css";
+import styles from "./burgeringredients.module.css";
 import {
   Tab,
   CurrencyIcon,
   CloseIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
-import ModalOverlay from "../modal/modaloverlay";
 import IngredientDetails from "../modal/ingredientdetails";
 import PropTypes from "prop-types";
 
 BurgerIngredients.propTypes = {
-  propsDataValue: PropTypes.array,
+  propsDataValue: PropTypes.array.isRequired,
 };
 
 function BurgerIngredients({ propsDataValue }) {
@@ -26,52 +25,54 @@ function BurgerIngredients({ propsDataValue }) {
 
   return (
     <>
-      <div className="burger-ingredients-content burger-container">
-        <p className="text text_type_main-large burger-ingredients-title">
-          Соберите бургер
-        </p>
-        <div style={{ display: "flex", paddingBottom: 40 }}>
+      <div className={styles.burgerContainer}>
+        <div className={styles.burgerIngredientsTitle}>
+          <p className="text text_type_main-large">Соберите бургер</p>
+        </div>
+        <div className={styles.burgerIngredientsTab}>
           <Tab value="one" active={current === "one"} onClick={setCurrent}>
-            Булки
+            <p className="text text_type_main-medium">Булки</p>
           </Tab>
           <Tab value="two" active={current === "two"} onClick={setCurrent}>
-            Соусы
+            <p className="text text_type_main-medium">Соусы</p>
           </Tab>
           <Tab value="three" active={current === "three"} onClick={setCurrent}>
-            Начинки
+            <p className="text text_type_main-medium">Начинки</p>
           </Tab>
         </div>
 
         {propsDataValue ? (
           <>
-            <div className="burger-ingredients-block">
+            <div className={styles.burgerIngredientsBlock}>
               <div>
                 <div>
-                  <p className="text text_type_main-medium">Булки</p>
+                  <p className="text text_type_main-large">Булки</p>
                 </div>
 
-                <div className="burger-items">
+                <div className={styles.burgerItems}>
                   {propsDataValue
                     .filter((datafilter) => datafilter.type === "bun")
                     .map((datavalue) => (
                       <div
-                        className="burger-item"
+                        className={styles.burgerItem}
                         key={datavalue._id}
                         onClick={() => handleOpenModal(datavalue._id)}
                       >
-                        <div className="burger-image">
+                        <div className={styles.burgerImage}>
                           <img src={datavalue.image} />
                         </div>
                         <div>
-                          <div className="burger-items-price">
+                          <div className={styles.burgerItemsPrice}>
                             <p className="text text_type_digits-default">
                               {datavalue.price}
                             </p>
 
                             <CurrencyIcon type="primary" />
                           </div>
-                          <div className="burger-items-price">
-                            {datavalue.name}
+                          <div className={styles.burgerItemsPrice}>
+                            <p className="text text_type_main-default">
+                              {datavalue.name}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -81,31 +82,33 @@ function BurgerIngredients({ propsDataValue }) {
 
               <div>
                 <div>
-                  <p className="text text_type_main-medium">Начинки</p>
+                  <p className="text text_type_main-large">Начинки</p>
                 </div>
 
-                <div className="burger-items">
+                <div className={styles.burgerItems}>
                   {propsDataValue
                     .filter((datafilter) => datafilter.type === "main")
                     .map((datavalue) => (
                       <div
-                        className="burger-item"
+                        className={styles.burgerItem}
                         key={datavalue._id}
                         onClick={() => handleOpenModal(datavalue._id)}
                       >
-                        <div className="burger-image">
+                        <div className={styles.burgerImage}>
                           <img src={datavalue.image} />
                         </div>
                         <div>
-                          <div className="burger-items-price">
+                          <div className={styles.burgerItemsPrice}>
                             <p className="text text_type_digits-default">
                               {datavalue.price}
                             </p>
 
                             <CurrencyIcon type="primary" />
                           </div>
-                          <div className="burger-items-price">
-                            {datavalue.name}
+                          <div className={styles.burgerItemsPrice}>
+                            <p className="text text_type_main-default">
+                              {datavalue.name}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -114,31 +117,33 @@ function BurgerIngredients({ propsDataValue }) {
               </div>
               <div>
                 <div>
-                  <p className="text text_type_main-medium">Соусы</p>
+                  <p className="text text_type_main-large">Соусы</p>
                 </div>
 
-                <div className="burger-items">
+                <div className={styles.burgerItems}>
                   {propsDataValue
                     .filter((datafilter) => datafilter.type === "sauce")
                     .map((datavalue) => (
                       <div
-                        className="burger-item"
+                        className={styles.burgerItem}
                         key={datavalue._id}
                         onClick={() => handleOpenModal(datavalue._id)}
                       >
-                        <div className="burger-image">
+                        <div className={styles.burgerImage}>
                           <img src={datavalue.image} />
                         </div>
                         <div>
-                          <div className="burger-items-price">
+                          <div className={styles.burgerItemsPrice}>
                             <p className="text text_type_digits-default">
                               {datavalue.price}
                             </p>
 
                             <CurrencyIcon type="primary" />
                           </div>
-                          <div className="burger-items-price">
-                            {datavalue.name}
+                          <div className={styles.burgerItemsPrice}>
+                            <p className="text text_type_main-default">
+                              {datavalue.name}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -152,13 +157,11 @@ function BurgerIngredients({ propsDataValue }) {
         )}
       </div>
 
-      <ModalOverlay isOpen={isModalOpen} propsSetIsModalOpen={setIsModalOpen} />
-      <Modal isOpen={isModalOpen}>
-        <div className="header-modal-block">
-          <h1>Детали ингредиента</h1>
-          <CloseIcon type="primary" onClick={() => setIsModalOpen(false)} />
-        </div>
-
+      <Modal
+        isOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        headerTitleModal={"Детали ингредиента"}
+      >
         <IngredientDetails
           propsDataIngredientDetails={propsDataValue}
           propsIdIngredients={idIngredients.toString()}

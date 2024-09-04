@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
+import styles from "./modal.module.css";
 
 IngredientDetails.propTypes = {
-  propsDataIngredientDetails: PropTypes.array,
-  propsIdIngredients: PropTypes.string,
+  propsDataIngredientDetails: PropTypes.array.isRequired,
+  propsIdIngredients: PropTypes.string.isRequired,
 };
 
 function IngredientDetails({ propsDataIngredientDetails, propsIdIngredients }) {
@@ -11,15 +12,15 @@ function IngredientDetails({ propsDataIngredientDetails, propsIdIngredients }) {
       {propsDataIngredientDetails
         ? propsDataIngredientDetails.map((datavalue) =>
             propsIdIngredients && propsIdIngredients === datavalue._id ? (
-              <div className="burger-item-modal" key={datavalue._id}>
-                <div className="burger-item-modal-image">
+              <div key={datavalue._id}>
+                <div className={styles.burgerItemModalImage}>
                   <img src={datavalue.image} />
                 </div>
-                <div className="burger-item-modal-name text text_type_main-medium">
-                  {datavalue.name}
+                <div className={styles.burgerItemModalName}>
+                  <p className="text text_type_main-medium">{datavalue.name}</p>
                 </div>
-                <div className="burger-item-modal-specifications-block">
-                  <div className="burger-item-modal-specifications">
+                <div className={styles.burgerItemModalSpecificationsBlock}>
+                  <div className={styles.burgerItemModalSpecifications}>
                     <p className="text text_type_main-default text_color_inactive">
                       Калории, ккал
                     </p>
@@ -27,7 +28,7 @@ function IngredientDetails({ propsDataIngredientDetails, propsIdIngredients }) {
                       {datavalue.calories}
                     </p>
                   </div>
-                  <div className="burger-item-modal-specifications">
+                  <div className={styles.burgerItemModalSpecifications}>
                     <p className="text text_type_main-default text_color_inactive">
                       Белки, г
                     </p>
@@ -35,7 +36,7 @@ function IngredientDetails({ propsDataIngredientDetails, propsIdIngredients }) {
                       {datavalue.proteins}
                     </p>
                   </div>
-                  <div className="burger-item-modal-specifications">
+                  <div className={styles.burgerItemModalSpecifications}>
                     <p className="text text_type_main-default text_color_inactive">
                       Жиры, г
                     </p>
@@ -44,7 +45,7 @@ function IngredientDetails({ propsDataIngredientDetails, propsIdIngredients }) {
                     </p>
                   </div>
 
-                  <div className="burger-item-modal-specifications">
+                  <div className={styles.burgerItemModalSpecifications}>
                     <p className="text text_type_main-default text_color_inactive">
                       Углеводы, г
                     </p>

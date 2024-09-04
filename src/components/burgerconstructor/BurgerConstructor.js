@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./burgerconstructor.css";
+import styles from "./burgerconstructor.module.css";
 import {
   ConstructorElement,
   DragIcon,
@@ -7,13 +7,12 @@ import {
   CurrencyIcon,
   CloseIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import ModalOverlay from "../modal/modaloverlay";
 import Modal from "../modal/modal";
 import OrderDetails from "../modal/orderdetails";
 import PropTypes from "prop-types";
 
 BurgerConstructor.propTypes = {
-  propsDataValue: PropTypes.array,
+  propsDataValue: PropTypes.array.isRequired,
 };
 
 function BurgerConstructor({ propsDataValue }) {
@@ -24,16 +23,14 @@ function BurgerConstructor({ propsDataValue }) {
   }
   return (
     <>
-      <div className="burger-constructor-block">
-        <div className="burger-constructor-container">
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-          >
+      <div className={styles.burgerConstructorBlock}>
+        <div className={styles.burgerConstructorContainer}>
+          <div className={styles.burgerConstructorBlockContent}>
             {propsDataValue
               ? propsDataValue.map((datavalue, index) => (
                   <div
                     key={datavalue._id}
-                    className="burger-constructor-element"
+                    className={styles.burgerConstructorElement}
                   >
                     <DragIcon type="primary" />
                     <ConstructorElement
@@ -54,8 +51,8 @@ function BurgerConstructor({ propsDataValue }) {
               : false}
           </div>
         </div>
-        <div className="final-price-block pl-3 pr-3 pb-5 pt-5">
-          <div className="final-price-item">
+        <div className={styles.finalPriceBlock}>
+          <div className={styles.finalPriceItem}>
             <p className="text text_type_digits-medium">610</p>
             <CurrencyIcon type="primary" />
           </div>
@@ -69,13 +66,8 @@ function BurgerConstructor({ propsDataValue }) {
           </Button>
         </div>
       </div>
-      <ModalOverlay isOpen={isModalOpen} propsSetIsModalOpen={setIsModalOpen} />
 
-      <Modal isOpen={isModalOpen}>
-        <div className="header-modal-block">
-          <h1></h1>
-          <CloseIcon type="primary" onClick={() => setIsModalOpen(false)} />
-        </div>
+      <Modal isOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
         <OrderDetails OrderDetails={propsDataValue} />
       </Modal>
     </>

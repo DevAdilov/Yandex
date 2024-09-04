@@ -1,4 +1,4 @@
-.modal-overlay {
+.modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -10,55 +10,70 @@
   align-items: center;
 }
 
-.modal-block {
+.modalBlock {
   position: absolute;
-  top: 25%;
+  top: 15%;
   left: 30%;
   width: 720px;
-  height: 539px;
+  max-height: 718px;
   background-color: #1c1c21;
   border-radius: 40px;
 }
-.header-modal-block {
+.headerModalBlock {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 40px 40px 0px 40px;
 }
-.header-modal-block h1 {
+.headerModalBlock h1 {
   padding-bottom: 5px;
 }
-.burger-item-modal-image {
+.burgerItemModalImage {
   display: flex;
   justify-content: center;
   align-items: center;
   padding-bottom: 10px;
 }
 
-.burger-item-modal-name {
+.burgerItemModalName {
   display: flex;
   justify-content: center;
   align-items: center;
   padding-bottom: 32px;
 }
-.burger-item-modal-specifications-block {
+.burgerItemModalSpecificationsBlock {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
+  padding-bottom: 60px;
 }
 
-.burger-item-modal-specifications {
+.burgerItemModalSpecifications {
   text-align: center;
   width: 130px;
 }
-.header-modal-block svg {
+.headerModalBlock svg {
   cursor: pointer;
 }
-.burger-item-modal-image img {
+.burgerItemModalImage img {
   width: 480px;
   height: 240px;
 }
 .order {
+  padding-bottom: 60px;
+}
+.orderDetails {
+  text-align: center;
+}
+.orderDetails svg {
+  padding: 60px 0px;
+  text-align: center;
+  align-items: center;
+}
+.orderDetails p {
+  padding: 4px 0px;
+}
+.orderDetailsInfo {
   padding-bottom: 60px;
 }

@@ -1,0 +1,40 @@
+.burgerIngredientsTitle {
+  padding: 40px 0px 20px 0px;
+}
+.burgerItems {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 24px 12px 40px 16px;
+}
+.burgerItemsPrice {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px;
+  justify-content: center;
+  text-align: center;
+}
+.burgerItem {
+  width: 50%;
+  padding: 16px 0px;
+  cursor: pointer;
+}
+.burgerImage {
+  display: flex;
+  justify-content: center;
+}
+
+.burgerIngredientsBlock {
+  overflow-y: scroll;
+  max-height: 600px;
+}
+
+.burgerContainer {
+  max-width: 600px;
+  max-height: 900px;
+}
+
+.burgerIngredientsTab {
+  display: flex;
+  padding-bottom: 40px;
+}

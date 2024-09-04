@@ -1,8 +1,10 @@
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
+import styles from "./modal.module.css";
 
 ModalOverlay.propTypes = {
-  isOpen: PropTypes.bool,
+  isOpen: PropTypes.bool.isRequired,
+  propsSetIsModalOpen: PropTypes.func.isRequired,
 };
 
 function ModalOverlay({ isOpen, propsSetIsModalOpen }) {
@@ -10,7 +12,7 @@ function ModalOverlay({ isOpen, propsSetIsModalOpen }) {
 
   return ReactDOM.createPortal(
     <div
-      className="modal-overlay"
+      className={styles.modalOverlay}
       onClick={() => propsSetIsModalOpen(false)}
     ></div>,
     document.getElementById("burger-modals")
