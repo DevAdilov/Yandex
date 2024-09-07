@@ -1,0 +1,6 @@
+.burgerMain {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  gap: 40px;
+}
