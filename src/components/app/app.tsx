@@ -18,7 +18,9 @@ function App() {
         }
         return Promise.reject(`Ошибка ${response.status}`);
       })
-      .then((data) => setArrData(data.data))
+      .then((data) => {
+        setArrData(data.data);
+      })
       .catch((error) => console.error("Error:", error));
   }, []);
 
