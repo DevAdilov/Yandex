@@ -14,7 +14,7 @@ Modal.propTypes = {
 function Modal({ isOpen, children, setIsModalOpen, headerTitleModal }) {
   useEffect(() => {
     const close = (e) => {
-      if (e.keyCode === "Escape" || e.keyCode === 27) {
+      if (e.key === "Escape") {
         setIsModalOpen(false);
       }
     };
@@ -32,7 +32,12 @@ function Modal({ isOpen, children, setIsModalOpen, headerTitleModal }) {
           <p className="text text_type_main-large">
             {headerTitleModal ? headerTitleModal : false}
           </p>
-          <CloseIcon type="primary" onClick={() => setIsModalOpen(false)} />
+          <CloseIcon
+            type="primary"
+            onClick={() => {
+              setIsModalOpen(false);
+            }}
+          />
         </div>
         {children}
       </div>

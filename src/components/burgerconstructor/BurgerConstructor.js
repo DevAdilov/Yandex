@@ -1,102 +1,282 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./burgerconstructor.module.css";
 import {
   ConstructorElement,
-  DragIcon,
   Button,
   CurrencyIcon,
-  CloseIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "../modal/orderdetails";
-import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  CLEAR_BASKET,
+  DELETE_INGREDIENT,
+  SORT_INGREDIENT,
+} from "../../services/reducer-constructor/action";
+import { ORDER_DETAILS } from "../../services/reducer-order-details/action";
+import { useDrop } from "react-dnd";
+import ConstructorElementIngredient from "./constructor-element-burger";
 
-BurgerConstructor.propTypes = {
-  propsDataValue: PropTypes.array.isRequired,
-};
-
-function BurgerConstructor({ propsDataValue }) {
+function BurgerConstructor({ onDropHandler }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [bun, setbun] = useState([]);
+  const [allPrice, setAllPrice] = useState(0);
+  const [orderDetailsCreat, setOrderDetailsCreat] = useState([]);
 
-  const bunFilter = () => {
-    const filteredBun = propsDataValue.filter((item) => item.type === "bun");
+  const [moveIndexDrop, setMoveIndexDrop] = useState(null);
+  const [moveIndexDrag, setMoveIndexDrag] = useState(null);
 
-    setbun(filteredBun);
-  };
+  const [moveCurrentIdDrag, setMoveCurrentIdDrag] = useState(null);
+
+  const [ingredientConstructorState, setIngredientConstructorState] = useState(
+    []
+  );
+
+  const dispatch = useDispatch();
+  const ingredientConstructor = useSelector(
+    (store) => store.constructorRootReducer
+  );
+  const ingredientBurger = useSelector(
+    (store) => store.ingredientRootReducer.ingredientLoad
+  );
+  const [canDropTop, dropRefBunTop] = useDrop({
+    accept: "bun",
+    drop(item) {
+      onDropHandler(item);
+    },
+    collect: (monitor) => ({
+      canDropTop: monitor.canDrop(),
+    }),
+  });
+
+  const [canDropBottom, dropRefBunBottom] = useDrop({
+    accept: "bun",
+    drop(item) {
+      onDropHandler(item);
+    },
+    collect: (monitor) => ({
+      canDropBottom: monitor.canDrop(),
+    }),
+  });
+
+  const [canDropOther, dropRefMain] = useDrop({
+    accept: "other",
+    drop(item) {
+      onDropHandler(item);
+    },
+    collect: (monitor) => ({
+      canDropOther: monitor.canDrop(),
+    }),
+  });
+
+  const elementBun = ingredientBurger.filter(
+    (elementfilter) => elementfilter._id === ingredientConstructor.bun
+  );
+  const elementIngredient = ingredientConstructor.other
+    .map((id) => ingredientBurger.find((element) => element._id === id))
+    .filter((element) => element !== undefined);
 
   useEffect(() => {
-    bunFilter();
-  }, [propsDataValue]);
+    setIngredientConstructorState(ingredientConstructor.other);
+
+    var priceCalculate =
+      elementBun && elementBun[0] && elementBun[0].price
+        ? elementBun[0].price * 2
+        : 0;
+
+    ingredientConstructor.other.map((element) => {
+      const elementItem = ingredientBurger.filter(
+        (elementfilter) => elementfilter._id === element
+      );
+      priceCalculate = priceCalculate + elementItem[0].price;
+    });
+
+    setAllPrice(priceCalculate);
+    setOrderDetailsCreat(elementIngredient);
+  }, [ingredientConstructor]);
+
+  const orderСreation = () => {
+    const apiUrl = "https://norma.nomoreparties.space/api/orders";
+
+    let curentIngredients = [];
+    curentIngredients = ingredientConstructor.other;
+    if (ingredientConstructor.bun != "") {
+      curentIngredients.push(ingredientConstructor.bun);
+    }
+
+    const dataToSend = {
+      ingredients: curentIngredients,
+    };
+
+    fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataToSend),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(`Ошибка ${response.status}`);
+      })
+      .then((data) => {
+        dispatch({ type: ORDER_DETAILS, payload: data.order.number });
+        dispatch({ type: CLEAR_BASKET });
+      })
+      .catch((error) => console.error("Error:", error));
+  };
 
   function handleOpenModal() {
     setIsModalOpen(true);
   }
+
+  const moveIngredient = (dragIndex, hoverIndex) => {
+    let moveCurrentIdDragInside = moveCurrentIdDrag;
+
+    if (moveCurrentIdDragInside == null) {
+      moveCurrentIdDragInside = ingredientConstructorState[dragIndex];
+      setMoveCurrentIdDrag(moveCurrentIdDragInside);
+    }
+
+    if (moveIndexDrop !== hoverIndex || moveIndexDrag !== dragIndex) {
+      setMoveIndexDrop(hoverIndex);
+      setMoveIndexDrag(dragIndex);
+      /*
+
+      */
+      console.log(dragIndex, hoverIndex);
+      const newIngredientConstructor = [...ingredientConstructorState];
+      newIngredientConstructor.splice(dragIndex, 1);
+      newIngredientConstructor.splice(hoverIndex, 0, moveCurrentIdDragInside);
+      setIngredientConstructorState(newIngredientConstructor);
+    }
+  };
+
+  function dropIngredient(drop, drag) {
+    console.log(drop, drag);
+    setMoveIndexDrop(null);
+    setMoveIndexDrag(null);
+    setMoveCurrentIdDrag(null);
+    dispatch({
+      type: SORT_INGREDIENT,
+      payload: ingredientConstructorState,
+    });
+  }
+
   return (
     <>
       <div className={styles.burgerConstructorBlock}>
         <div className={styles.burgerConstructorContainer}>
           <div className={styles.burgerConstructorBlockContent}>
-            {bun && bun.length > 0 && bun[0].name ? (
-              <div className={styles.burgerBunItem}>
-                <ConstructorElement
-                  type="top"
-                  isLocked={true}
-                  text={bun[0].name + " (верх)"}
-                  price={bun[0].price}
-                  thumbnail={bun[0].image}
-                />
-              </div>
-            ) : (
-              false
-            )}
-            <div className={styles.burgerItemConstructor}>
-              {propsDataValue
-                ? propsDataValue.map((datavalue) =>
-                    datavalue.type !== "bun" ? (
-                      <div
-                        key={datavalue._id}
-                        className={styles.burgerConstructorElement}
-                      >
-                        <DragIcon type="primary" />
-                        <ConstructorElement
-                          text={datavalue.name}
-                          price={datavalue.price}
-                          thumbnail={datavalue.image}
-                        />
-                      </div>
-                    ) : (
-                      false
-                    )
-                  )
-                : false}
+            <div ref={dropRefBunTop}>
+              {ingredientConstructor.bun ? (
+                <div className={styles.burgerBunItem}>
+                  <ConstructorElement
+                    type="top"
+                    isLocked={true}
+                    text={elementBun[0].name + " (верх)"}
+                    price={elementBun[0].price}
+                    thumbnail={elementBun[0].image}
+                  />
+                </div>
+              ) : (
+                <div className={styles.burgerConstructorElement}>
+                  <div
+                    className={`
+    ${styles.burgerConstructorElementBunTop}
+    ${canDropTop.canDropTop ? styles.BunBorder : ""}
+  `}
+                  >
+                    Перетащите булку
+                  </div>
+                </div>
+              )}
             </div>
-            {bun && bun.length > 0 && bun[0].name ? (
-              <div className={styles.burgerBunItem}>
-                <ConstructorElement
-                  type="bottom"
-                  isLocked={true}
-                  text={bun[0].name + " (низ)"}
-                  price={bun[0].price}
-                  thumbnail={bun[0].image}
-                />
-              </div>
-            ) : (
-              false
-            )}
+            <div ref={dropRefMain} className={styles.burgerItemConstructor}>
+              {ingredientConstructorState &&
+              ingredientConstructorState.length > 0 ? (
+                ingredientConstructorState.map((element, index) => {
+                  const elementItem = ingredientBurger.filter(
+                    (elementfilter) => elementfilter._id === element
+                  );
+
+                  return (
+                    <div key={index}>
+                      <ConstructorElementIngredient
+                        elementItem={elementItem}
+                        index={index}
+                        moveIngredient={moveIngredient}
+                        dropIngredient={dropIngredient}
+                      />
+                    </div>
+                    // <div
+                    //   key={index}
+                    //   className={styles.burgerConstructorElement}
+                    // >
+                    //   <DragIcon type="primary" />
+                    //   <ConstructorElement
+                    //     text={elementItem[0].name}
+                    //     price={elementItem[0].price}
+                    //     thumbnail={elementItem[0].image}
+                    //     handleClose={() => deleteIngredient(index)}
+                    //   />
+                    // </div>
+                  );
+                })
+              ) : (
+                <div className={styles.burgerConstructorElement}>
+                  <div
+                    className={`
+                    ${styles.burgerConstructorElementIngredient}
+                    ${canDropOther.canDropOther ? styles.BunBorder : ""}
+                  `}
+                  >
+                    Перетащите ингредиент
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div ref={dropRefBunBottom}>
+              {ingredientConstructor.bun ? (
+                <div className={styles.burgerBunItem}>
+                  <ConstructorElement
+                    type="bottom"
+                    isLocked={true}
+                    text={elementBun[0].name + " (низ)"}
+                    price={elementBun[0].price}
+                    thumbnail={elementBun[0].image}
+                  />
+                </div>
+              ) : (
+                <div className={styles.burgerConstructorElement}>
+                  <div
+                    className={`${styles.burgerConstructorElementBunBottom} ${
+                      canDropBottom.canDropBottom ? styles.BunBorder : ""
+                    }`}
+                  >
+                    Перетащите булку
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
         <div className={styles.finalPriceBlock}>
           <div className={styles.finalPriceItem}>
-            <p className="text text_type_digits-medium">610</p>
+            <p className="text text_type_digits-medium">{allPrice}</p>
             <CurrencyIcon type="primary" />
           </div>
           <Button
             htmlType="button"
             type="primary"
             size="large"
-            onClick={() => handleOpenModal()}
+            onClick={() => {
+              handleOpenModal();
+              orderСreation();
+            }}
           >
             Оформить заказ
           </Button>
@@ -104,7 +284,7 @@ function BurgerConstructor({ propsDataValue }) {
       </div>
 
       <Modal isOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
-        <OrderDetails OrderDetails={propsDataValue} />
+        <OrderDetails OrderDetails={ingredientConstructor} />
       </Modal>
     </>
   );
