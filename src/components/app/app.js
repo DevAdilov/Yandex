@@ -4,23 +4,20 @@ import AppHeader from "../apheader/AppHeader";
 import BurgerIngredients from "../burgeringredients/BurgerIngredients";
 import BurgerConstructor from "../burgerconstructor/BurgerConstructor";
 import { useDispatch, useSelector } from "react-redux";
-import { LOAD_INGREDIENT } from "../../services/reducer-ingredient/action";
+import { loadData } from "../../services/reducer-ingredient/action";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import {
   ADD_INGREDIENT_BUN,
   ADD_INGREDIENT_OTHER,
 } from "../../services/reducer-constructor/action";
+import { BASE_URL } from "../../utils/const/const";
 
 function App() {
   const dispatch = useDispatch();
 
-  // const ingredientConstructor = useSelector(
-  //   (store) => store.constructorRootReducer
-  // );
-
   useEffect(() => {
-    loadData();
+    dispatch(loadData());
   }, []);
 
   const addBun = (id) => {
@@ -36,21 +33,6 @@ function App() {
       payload: id,
     });
   };
-
-  function loadData() {
-    const arrayApi = "https://norma.nomoreparties.space/api/ingredients";
-    fetch(arrayApi)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        return Promise.reject(`Ошибка ${response.status}`);
-      })
-      .then((data) => {
-        dispatch({ type: LOAD_INGREDIENT, payload: data.data });
-      })
-      .catch((error) => console.error("Error:", error));
-  }
 
   const onDropHandler = (item) => {
     if (item.type === "bun") {

@@ -13,9 +13,13 @@ import {
   DELETE_INGREDIENT,
   SORT_INGREDIENT,
 } from "../../services/reducer-constructor/action";
-import { ORDER_DETAILS } from "../../services/reducer-order-details/action";
+import {
+  ORDER_DETAILS,
+  orderСreationAction,
+} from "../../services/reducer-order-details/action";
 import { useDrop } from "react-dnd";
 import ConstructorElementIngredient from "./constructor-element-burger";
+import { BASE_URL } from "../../utils/const/const";
 
 function BurgerConstructor({ onDropHandler }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -85,7 +89,7 @@ function BurgerConstructor({ onDropHandler }) {
 
     ingredientConstructor.other.map((element) => {
       const elementItem = ingredientBurger.filter(
-        (elementfilter) => elementfilter._id === element
+        (elementfilter) => elementfilter._id === element.id
       );
       priceCalculate = priceCalculate + elementItem[0].price;
     });
@@ -95,36 +99,12 @@ function BurgerConstructor({ onDropHandler }) {
   }, [ingredientConstructor]);
 
   const orderСreation = () => {
-    const apiUrl = "https://norma.nomoreparties.space/api/orders";
-
     let curentIngredients = [];
     curentIngredients = ingredientConstructor.other;
     if (ingredientConstructor.bun != "") {
       curentIngredients.push(ingredientConstructor.bun);
     }
-
-    const dataToSend = {
-      ingredients: curentIngredients,
-    };
-
-    fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dataToSend),
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        return Promise.reject(`Ошибка ${response.status}`);
-      })
-      .then((data) => {
-        dispatch({ type: ORDER_DETAILS, payload: data.order.number });
-        dispatch({ type: CLEAR_BASKET });
-      })
-      .catch((error) => console.error("Error:", error));
+    dispatch(orderСreationAction(curentIngredients));
   };
 
   function handleOpenModal() {
@@ -198,11 +178,11 @@ function BurgerConstructor({ onDropHandler }) {
               ingredientConstructorState.length > 0 ? (
                 ingredientConstructorState.map((element, index) => {
                   const elementItem = ingredientBurger.filter(
-                    (elementfilter) => elementfilter._id === element
+                    (elementfilter) => elementfilter._id === element.id
                   );
 
                   return (
-                    <div key={index}>
+                    <div key={element.uniqueId}>
                       <ConstructorElementIngredient
                         elementItem={elementItem}
                         index={index}

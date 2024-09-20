@@ -1,7 +1,8 @@
-import { ADD_INGREDIENT, CLEAR_BASKET, SORT_INGREDIENT } from "./action";
+import { CLEAR_BASKET, SORT_INGREDIENT } from "./action";
 import { ADD_INGREDIENT_BUN } from "./action";
 import { ADD_INGREDIENT_OTHER } from "./action";
 import { DELETE_INGREDIENT } from "./action";
+import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
   bun: null,
@@ -10,11 +11,6 @@ const initialState = {
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_INGREDIENT:
-      return {
-        ...state,
-        ingredient: [...state.ingredient, action.payload],
-      };
     case ADD_INGREDIENT_BUN:
       return {
         ...state,
@@ -23,7 +19,7 @@ export const reducer = (state = initialState, action) => {
     case ADD_INGREDIENT_OTHER:
       return {
         ...state,
-        other: [...state.other, action.payload],
+        other: [...state.other, { id: action.payload, uniqueId: uuidv4() }],
       };
     case DELETE_INGREDIENT:
       return {

@@ -1,3 +1,4 @@
+import { BASE_URL } from "../../utils/const/const";
 import { ADD_COUNT, LOAD_INGREDIENT } from "./action";
 
 const initialState = {
