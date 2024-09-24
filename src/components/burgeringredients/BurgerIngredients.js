@@ -320,13 +320,16 @@ function BurgerIngredients() {
         )}
       </div>
 
-      <Modal
-        isOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        headerTitleModal={"Детали ингредиента"}
-      >
-        <IngredientDetails />
-      </Modal>
+      {isModalOpen ? (
+        <Modal
+          setIsModalOpen={setIsModalOpen}
+          headerTitleModal={"Детали ингредиента"}
+        >
+          <IngredientDetails />
+        </Modal>
+      ) : (
+        false
+      )}
     </>
   );
 }

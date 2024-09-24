@@ -46,6 +46,8 @@ function ConstructorElementIngredient({
     },
   });
 
+  console.log(elementItem);
+
   const [{ isDragging }, drag] = useDrag({
     type: "itemingredients",
     item: () => {
@@ -72,12 +74,16 @@ function ConstructorElementIngredient({
         } `}
       >
         <DragIcon type="primary" />
-        <ConstructorElement
-          text={elementItem[0].name}
-          price={elementItem[0].price}
-          thumbnail={elementItem[0].image}
-          handleClose={() => deleteIngredient(index)}
-        />
+        {elementItem && elementItem[0] && elementItem[0].name ? (
+          <ConstructorElement
+            text={elementItem[0].name}
+            price={elementItem[0].price}
+            thumbnail={elementItem[0].image}
+            handleClose={() => deleteIngredient(index)}
+          />
+        ) : (
+          false
+        )}
       </div>
     </>
   );

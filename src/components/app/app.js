@@ -11,7 +11,6 @@ import {
   ADD_INGREDIENT_BUN,
   ADD_INGREDIENT_OTHER,
 } from "../../services/reducer-constructor/action";
-import { BASE_URL } from "../../utils/const/const";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,29 +18,6 @@ function App() {
   useEffect(() => {
     dispatch(loadData());
   }, []);
-
-  const addBun = (id) => {
-    dispatch({
-      type: ADD_INGREDIENT_BUN,
-      payload: id,
-    });
-  };
-
-  const addOther = (id) => {
-    dispatch({
-      type: ADD_INGREDIENT_OTHER,
-      payload: id,
-    });
-  };
-
-  const onDropHandler = (item) => {
-    if (item.type === "bun") {
-      addBun(item.id);
-    }
-    if (item.type === "other") {
-      addOther(item.id);
-    }
-  };
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -54,10 +30,8 @@ function App() {
             </div>
 
             <div className="burger-block">
-              <BurgerConstructor onDropHandler={onDropHandler} />
+              <BurgerConstructor />
             </div>
-
-            <div id="burger-modals"></div>
           </section>
         </main>
       </div>

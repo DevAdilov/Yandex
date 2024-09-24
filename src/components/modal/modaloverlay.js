@@ -3,13 +3,10 @@ import PropTypes from "prop-types";
 import styles from "./modal.module.css";
 
 ModalOverlay.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
   propsSetIsModalOpen: PropTypes.func.isRequired,
 };
 
-function ModalOverlay({ isOpen, propsSetIsModalOpen }) {
-  if (!isOpen) return null;
-
+function ModalOverlay({ propsSetIsModalOpen }) {
   return ReactDOM.createPortal(
     <div
       className={styles.modalOverlay}

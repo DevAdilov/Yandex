@@ -10,6 +10,8 @@ export const orderСreationAction = (curentIngredients) => (dispatch) => {
     ingredients: curentIngredients,
   };
 
+  console.log("asd", dataToSend);
+
   fetch(apiUrl, {
     method: "POST",
     headers: {

@@ -2,7 +2,6 @@ import { CLEAR_BASKET, SORT_INGREDIENT } from "./action";
 import { ADD_INGREDIENT_BUN } from "./action";
 import { ADD_INGREDIENT_OTHER } from "./action";
 import { DELETE_INGREDIENT } from "./action";
-import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
   bun: null,
@@ -19,7 +18,10 @@ export const reducer = (state = initialState, action) => {
     case ADD_INGREDIENT_OTHER:
       return {
         ...state,
-        other: [...state.other, { id: action.payload, uniqueId: uuidv4() }],
+        other: [
+          ...state.other,
+          { id: action.payload.id, uniqueId: action.payload.uniqid },
+        ],
       };
     case DELETE_INGREDIENT:
       return {

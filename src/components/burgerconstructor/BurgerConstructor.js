@@ -9,6 +9,8 @@ import Modal from "../modal/modal";
 import OrderDetails from "../modal/orderdetails";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  ADD_INGREDIENT_BUN,
+  ADD_INGREDIENT_OTHER,
   CLEAR_BASKET,
   DELETE_INGREDIENT,
   SORT_INGREDIENT,
@@ -20,8 +22,9 @@ import {
 import { useDrop } from "react-dnd";
 import ConstructorElementIngredient from "./constructor-element-burger";
 import { BASE_URL } from "../../utils/const/const";
+import { v4 as uuidv4 } from "uuid";
 
-function BurgerConstructor({ onDropHandler }) {
+function BurgerConstructor() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [allPrice, setAllPrice] = useState(0);
   const [orderDetailsCreat, setOrderDetailsCreat] = useState([]);
@@ -72,6 +75,30 @@ function BurgerConstructor({ onDropHandler }) {
     }),
   });
 
+  const addBun = (id) => {
+    dispatch({
+      type: ADD_INGREDIENT_BUN,
+      payload: id,
+    });
+  };
+
+  const addOther = (id) => {
+    let uniqidValue = uuidv4();
+    dispatch({
+      type: ADD_INGREDIENT_OTHER,
+      payload: { id: id, uniqid: uniqidValue },
+    });
+  };
+
+  const onDropHandler = (item) => {
+    if (item.type === "bun") {
+      addBun(item.id);
+    }
+    if (item.type === "other") {
+      addOther(item.id);
+    }
+  };
+
   const elementBun = ingredientBurger.filter(
     (elementfilter) => elementfilter._id === ingredientConstructor.bun
   );
@@ -100,7 +127,11 @@ function BurgerConstructor({ onDropHandler }) {
 
   const orderСreation = () => {
     let curentIngredients = [];
-    curentIngredients = ingredientConstructor.other;
+
+    ingredientConstructor.other.forEach((item) => {
+      curentIngredients.push(item.id);
+    });
+
     if (ingredientConstructor.bun != "") {
       curentIngredients.push(ingredientConstructor.bun);
     }
@@ -122,10 +153,7 @@ function BurgerConstructor({ onDropHandler }) {
     if (moveIndexDrop !== hoverIndex || moveIndexDrag !== dragIndex) {
       setMoveIndexDrop(hoverIndex);
       setMoveIndexDrag(dragIndex);
-      /*
 
-      */
-      console.log(dragIndex, hoverIndex);
       const newIngredientConstructor = [...ingredientConstructorState];
       newIngredientConstructor.splice(dragIndex, 1);
       newIngredientConstructor.splice(hoverIndex, 0, moveCurrentIdDragInside);
@@ -134,7 +162,6 @@ function BurgerConstructor({ onDropHandler }) {
   };
 
   function dropIngredient(drop, drag) {
-    console.log(drop, drag);
     setMoveIndexDrop(null);
     setMoveIndexDrag(null);
     setMoveCurrentIdDrag(null);
@@ -190,18 +217,6 @@ function BurgerConstructor({ onDropHandler }) {
                         dropIngredient={dropIngredient}
                       />
                     </div>
-                    // <div
-                    //   key={index}
-                    //   className={styles.burgerConstructorElement}
-                    // >
-                    //   <DragIcon type="primary" />
-                    //   <ConstructorElement
-                    //     text={elementItem[0].name}
-                    //     price={elementItem[0].price}
-                    //     thumbnail={elementItem[0].image}
-                    //     handleClose={() => deleteIngredient(index)}
-                    //   />
-                    // </div>
                   );
                 })
               ) : (
@@ -262,10 +277,13 @@ function BurgerConstructor({ onDropHandler }) {
           </Button>
         </div>
       </div>
-
-      <Modal isOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
-        <OrderDetails OrderDetails={ingredientConstructor} />
-      </Modal>
+      {/*isModalOpen ? (
+        <Modal setIsModalOpen={setIsModalOpen}>
+          <OrderDetails />
+        </Modal>
+      ) : (
+        false
+      )*/}
     </>
   );
 }

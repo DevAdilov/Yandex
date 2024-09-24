@@ -6,27 +6,28 @@ import ModalOverlay from "./modaloverlay";
 import { useEffect } from "react";
 
 Modal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
   children: PropTypes.object.isRequired,
   setIsModalOpen: PropTypes.func.isRequired,
 };
 
-function Modal({ isOpen, children, setIsModalOpen, headerTitleModal }) {
+function Modal({ children, setIsModalOpen, headerTitleModal }) {
+  function closeModal() {
+    setIsModalOpen(false);
+  }
+
   useEffect(() => {
     const close = (e) => {
       if (e.key === "Escape") {
-        setIsModalOpen(false);
+        closeModal();
       }
     };
     window.addEventListener("keydown", close);
     return () => window.removeEventListener("keydown", close);
   }, []);
 
-  if (!isOpen) return null;
-
   return ReactDOM.createPortal(
     <>
-      <ModalOverlay isOpen={isOpen} propsSetIsModalOpen={setIsModalOpen} />
+      <ModalOverlay propsSetIsModalOpen={setIsModalOpen} />
       <div className={styles.modalBlock}>
         <div className={styles.headerModalBlock}>
           <p className="text text_type_main-large">
@@ -35,7 +36,7 @@ function Modal({ isOpen, children, setIsModalOpen, headerTitleModal }) {
           <CloseIcon
             type="primary"
             onClick={() => {
-              setIsModalOpen(false);
+              closeModal();
             }}
           />
         </div>
