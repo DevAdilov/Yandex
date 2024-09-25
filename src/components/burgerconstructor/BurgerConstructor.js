@@ -277,13 +277,13 @@ function BurgerConstructor() {
           </Button>
         </div>
       </div>
-      {/*isModalOpen ? (
+      {isModalOpen ? (
         <Modal setIsModalOpen={setIsModalOpen}>
           <OrderDetails />
         </Modal>
       ) : (
         false
-      )*/}
+      )}
     </>
   );
 }

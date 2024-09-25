@@ -8,6 +8,7 @@ import { useEffect } from "react";
 Modal.propTypes = {
   children: PropTypes.object.isRequired,
   setIsModalOpen: PropTypes.func.isRequired,
+  headerTitleModal: PropTypes.string.isRequired,
 };
 
 function Modal({ children, setIsModalOpen, headerTitleModal }) {
@@ -27,7 +28,10 @@ function Modal({ children, setIsModalOpen, headerTitleModal }) {
 
   return ReactDOM.createPortal(
     <>
-      <ModalOverlay propsSetIsModalOpen={setIsModalOpen} />
+      <ModalOverlay
+        propsSetIsModalOpen={setIsModalOpen}
+        closeModal={closeModal}
+      />
       <div className={styles.modalBlock}>
         <div className={styles.headerModalBlock}>
           <p className="text text_type_main-large">
