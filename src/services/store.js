@@ -2,7 +2,7 @@ import { applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import { rootReducer } from "./reducer";
 
-import { fetchDataMiddleware } from "./middleware/thunkMiddleware";
+import { fetchDataMiddleware } from "./middleware/thunk-Middle-ware";
 import { thunk } from "redux-thunk";
 
 export const getStore = (initialState) => {

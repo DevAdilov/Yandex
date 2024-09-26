@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "./burgeringredients.module.css";
+import styles from "./burger-ingredients.module.css";
 import {
   Tab,
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
-import IngredientDetails from "../modal/ingredientdetails";
+import IngredientDetails from "../modal/ingredient-details";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_COUNT } from "../../services/reducer-ingredient/action";
 import {
@@ -90,7 +90,9 @@ function BurgerIngredients() {
   }
 
   function countOccurrences(array, element) {
-    return array.filter((item) => item === element).length;
+    console.log("******", array, element);
+
+    return array.filter((item) => item.id === element).length;
   }
 
   function ingredientScroll() {
@@ -282,14 +284,19 @@ function BurgerIngredients() {
                         }}
                       >
                         <div className={styles.burgerImage}>
-                          <Counter
-                            count={countOccurrences(
-                              ingredientConstructor.other,
-                              datavalue._id
-                            )}
-                            size="default"
-                            extraClass="m-1"
-                          />
+                          {ingredientConstructor ? (
+                            <Counter
+                              count={countOccurrences(
+                                ingredientConstructor.other,
+                                datavalue._id
+                              )}
+                              size="default"
+                              extraClass="m-1"
+                            />
+                          ) : (
+                            false
+                          )}
+                          {console.log(ingredientConstructor)}
                           <BurgerIngredientsOther
                             propsImg={datavalue.image}
                             propsId={datavalue._id}

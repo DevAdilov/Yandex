@@ -3,7 +3,7 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./burgerconstructor.module.css";
+import styles from "./burger-constructor.module.css";
 import { useDispatch } from "react-redux";
 import { DELETE_INGREDIENT } from "../../services/reducer-constructor/action";
 import { useRef } from "react";
@@ -45,8 +45,6 @@ function ConstructorElementIngredient({
       item.index = index;
     },
   });
-
-  console.log(elementItem);
 
   const [{ isDragging }, drag] = useDrag({
     type: "itemingredients",

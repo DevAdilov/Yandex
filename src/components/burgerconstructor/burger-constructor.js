@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "./burgerconstructor.module.css";
+import styles from "./burger-constructor.module.css";
 import {
   ConstructorElement,
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
-import OrderDetails from "../modal/orderdetails";
+import OrderDetails from "../modal/order-details";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ADD_INGREDIENT_BUN,

@@ -1,4 +1,4 @@
-import checkResponse from "../../utils/check/checkResponse";
+import checkResponse from "../../utils/check/check-Response";
 import { BASE_URL } from "../../utils/const/const";
 import { CLEAR_BASKET } from "../reducer-constructor/action";
 
