@@ -2,37 +2,47 @@ import ReactDOM from "react-dom";
 import styles from "./modal.module.css";
 import PropTypes from "prop-types";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import ModalOverlay from "./modaloverlay";
+import ModalOverlay from "./modal-overlay";
 import { useEffect } from "react";
 
 Modal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
   children: PropTypes.object.isRequired,
   setIsModalOpen: PropTypes.func.isRequired,
+  headerTitleModal: PropTypes.string,
 };
 
-function Modal({ isOpen, children, setIsModalOpen, headerTitleModal }) {
+function Modal({ children, setIsModalOpen, headerTitleModal }) {
+  function closeModal() {
+    setIsModalOpen(false);
+  }
+
   useEffect(() => {
     const close = (e) => {
-      if (e.keyCode === "Escape" || e.keyCode === 27) {
-        setIsModalOpen(false);
+      if (e.key === "Escape") {
+        closeModal();
       }
     };
     window.addEventListener("keydown", close);
     return () => window.removeEventListener("keydown", close);
   }, []);
 
-  if (!isOpen) return null;
-
   return ReactDOM.createPortal(
     <>
-      <ModalOverlay isOpen={isOpen} propsSetIsModalOpen={setIsModalOpen} />
+      <ModalOverlay
+        propsSetIsModalOpen={setIsModalOpen}
+        closeModal={closeModal}
+      />
       <div className={styles.modalBlock}>
         <div className={styles.headerModalBlock}>
           <p className="text text_type_main-large">
             {headerTitleModal ? headerTitleModal : false}
           </p>
-          <CloseIcon type="primary" onClick={() => setIsModalOpen(false)} />
+          <CloseIcon
+            type="primary"
+            onClick={() => {
+              closeModal();
+            }}
+          />
         </div>
         {children}
       </div>

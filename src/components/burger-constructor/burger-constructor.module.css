@@ -1,0 +1,115 @@
+.burgerConstructorBlock {
+  padding: 100px 16px 40px;
+}
+.burgerConstructorContainer {
+  max-height: 600px;
+}
+
+.burgerConstructorElement {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding: 10px;
+}
+
+.burgerConstructorElement.opacity {
+  opacity: 0, 5;
+}
+.burgerConstructorElementIngredient {
+  padding: 16px 24px;
+  display: flex;
+  border-radius: var(--common-border-radius-s);
+  background: var(--background-element);
+  max-width: 536px;
+  width: 100%;
+  min-height: 80px;
+  font-family: "Jet Brains Mono";
+  font-size: 16px;
+  line-height: 24px;
+  color: #f2f2f3;
+  flex-grow: 1;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border: 1px solid #2f2f37;
+}
+.burgerConstructorElementBunTop {
+  padding: 16px 24px;
+  display: flex;
+  border-radius: 88px 88px 40px 40px;
+  background: var(--background-element);
+  max-width: 536px;
+  width: 100%;
+  min-height: 80px;
+  font-family: "Jet Brains Mono";
+  font-size: 16px;
+  line-height: 24px;
+  color: #f2f2f3;
+  flex-grow: 1;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border: 1px solid #2f2f37;
+}
+.burgerConstructorElementBunTop.BunBorder {
+  border: 1px dashed #c33cd1;
+}
+.burgerConstructorElementBunBottom.BunBorder {
+  border: 1px dashed #c33cd1;
+}
+.burgerConstructorElementIngredient.BunBorder {
+  border: 1px dashed #c33cd1;
+}
+.burgerConstructorElementBunBottom {
+  padding: 16px 24px;
+  display: flex;
+  border-radius: 40px 40px 88px 88px;
+  background: var(--background-element);
+  max-width: 536px;
+  width: 100%;
+  min-height: 80px;
+  font-family: "Jet Brains Mono";
+  font-size: 16px;
+  line-height: 24px;
+  color: #f2f2f3;
+  flex-grow: 1;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border: 1px solid #2f2f37;
+}
+.finalPriceBlock {
+  display: flex;
+  gap: 40px;
+  justify-content: end;
+  padding: 40px 0px 10px;
+}
+.finalPriceItem {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.finalPriceItem svg {
+  width: 36px;
+  height: 36px;
+}
+
+.burgerConstructorBlockContent {
+  padding: 10px 16px 40px;
+}
+.burgerBunItem {
+  margin-left: 29px;
+  padding: 10px 0px;
+}
+
+.burgerItemConstructor {
+  overflow-y: scroll;
+  max-height: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

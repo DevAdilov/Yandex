@@ -4,22 +4,22 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import "./appheader.css";
+import styles from "./app-header.module.css";
 
 function AppHeader() {
   return (
     <>
-      <header className="App-header">
-        <div className="navigation-panel">
-          <div className="navigation-panel-left">
-            <div className="navigation-panel-icon-text">
-              <div className="navigation-panel-icon p-1">
+      <header className={styles.appHeader}>
+        <div className={styles.navigationPanel}>
+          <div className={styles.navigationPanelLeft}>
+            <div className={styles.navigationPanelIconText}>
+              <div className={styles.navigationPanelIcon}>
                 <BurgerIcon type="primary" />
               </div>
               <p className="text text_type_main-default p-1">Конструктор</p>
             </div>
-            <div className="navigation-panel-icon-text">
-              <div className="navigation-panel-icon p-1">
+            <div className={styles.navigationPanelIconText}>
+              <div className={styles.navigationPanelIcon}>
                 <ListIcon type="secondary" />
               </div>
               <p className="text text_type_main-default text_color_inactive p-1">
@@ -30,8 +30,8 @@ function AppHeader() {
           <div className="logo">
             <Logo />
           </div>
-          <div className="navigation-panel-icon-text">
-            <div className="navigation-panel-icon p-1">
+          <div className={styles.navigationPanelIconText}>
+            <div className={styles.navigationPanelIcon}>
               <ProfileIcon type="secondary" />
             </div>
             <p className="text text_type_main-default text_color_inactive p-1">
