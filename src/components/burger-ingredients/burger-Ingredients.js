@@ -90,8 +90,6 @@ function BurgerIngredients() {
   }
 
   function countOccurrences(array, element) {
-    console.log("******", array, element);
-
     return array.filter((item) => item.id === element).length;
   }
 
@@ -296,7 +294,7 @@ function BurgerIngredients() {
                           ) : (
                             false
                           )}
-                          {console.log(ingredientConstructor)}
+
                           <BurgerIngredientsOther
                             propsImg={datavalue.image}
                             propsId={datavalue._id}

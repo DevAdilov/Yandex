@@ -8,7 +8,7 @@ import { useEffect } from "react";
 Modal.propTypes = {
   children: PropTypes.object.isRequired,
   setIsModalOpen: PropTypes.func.isRequired,
-  headerTitleModal: PropTypes.string.isRequired,
+  headerTitleModal: PropTypes.string,
 };
 
 function Modal({ children, setIsModalOpen, headerTitleModal }) {

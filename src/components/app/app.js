@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./app.module.css";
-import AppHeader from "../apheader/AppHeader";
-import BurgerIngredients from "../burgeringredients/burger-Ingredients";
-import BurgerConstructor from "../burgerconstructor/burger-constructor";
+import AppHeader from "../app-header/app-header";
+import BurgerIngredients from "../burger-ingredients/burger-Ingredients";
+import BurgerConstructor from "../burger-constructor/burger-constructor";
 import { useDispatch, useSelector } from "react-redux";
 import { loadData } from "../../services/reducer-ingredient/action";
 import { DndProvider } from "react-dnd";
